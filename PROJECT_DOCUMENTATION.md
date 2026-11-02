@@ -186,3 +186,4 @@ The **Personal Expense Tracker** successfully fulfills all objectives stipulated
 3. MongoDB & Mongoose Documentation: https://mongoosejs.com
 4. Chart.js Documentation: https://www.chartjs.org
 5. JSON Web Tokens Standard (RFC 7519): https://jwt.io
+

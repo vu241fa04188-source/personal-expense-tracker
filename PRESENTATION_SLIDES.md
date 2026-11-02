@@ -120,3 +120,4 @@ Use the following slide outlines to create your PowerPoint presentation (10 to 1
 - **Summary:** The Personal Expense Tracker provides an effective, secure, and intuitive platform for personal financial empowerment.
 - **Key Takeaways:** Hands-on mastery of full-stack MERN architecture, REST API design, authentication, and state management.
 - **Thank you!** Questions and Feedback are welcome.
+

@@ -159,3 +159,4 @@ We implemented:
 
 ### Q30. What was the most challenging part of this project, and how did you resolve it?
 **Answer:** Managing user-scoped database isolation and calculating real-time monthly chart data efficiently. We solved this by creating a dedicated `/summary` endpoint in the backend that performs the aggregation and sends cleanly formatted data directly to Chart.js components, ensuring fast page load times and accurate reports.
+
