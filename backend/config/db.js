@@ -1,21 +1,25 @@
 const mongoose = require('mongoose');
 const dns = require('dns');
 
-// If using MongoDB Atlas SRV URI, set DNS servers to Google DNS to avoid querySrv ECONNREFUSED on Windows
-try {
-  dns.setServers(['8.8.8.8', '8.8.4.4', '1.1.1.1']);
-} catch (e) {
-  // Ignore if not supported in environment
+// Only apply DNS workaround on Windows where SRV records are sometimes blocked by local router DNS
+if (process.platform === 'win32') {
+  try {
+    dns.setServers(['8.8.8.8', '8.8.4.4', '1.1.1.1']);
+  } catch (e) {
+    // Ignore if not supported
+  }
 }
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONGO_URI);
+    const conn = await mongoose.connect(process.env.MONGO_URI, {
+      serverSelectionTimeoutMS: 10000, // Timeout after 10s instead of hanging
+    });
     console.log(` MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
     console.error(` Error connecting to MongoDB: ${error.message}`);
-    console.error(' Tip: Ensure your MONGO_URI in .env is correct and IP 0.0.0.0/0 is whitelisted in MongoDB Atlas');
-    process.exit(1);
+    console.error(' Tip: Ensure 0.0.0.0/0 (Allow from anywhere) is active in MongoDB Atlas Network Access');
+    // Do not call process.exit(1) on Render so the web server stays healthy and can retry
   }
 };
 

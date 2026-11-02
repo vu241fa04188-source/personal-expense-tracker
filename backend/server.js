@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const mongoose = require('mongoose');
 const connectDB = require('./config/db');
 
 // Load environment variables from .env file
@@ -18,9 +19,11 @@ app.use(express.urlencoded({ extended: false }));
 
 // Health check / Root route
 app.get('/', (req, res) => {
+  const isConnected = mongoose.connection.readyState === 1;
   res.json({
     message: 'Personal Expense Tracker API is running successfully',
     version: '1.0.0',
+    database: isConnected ? 'Connected to MongoDB Atlas' : 'Connecting or blocked by Atlas IP Whitelist',
     endpoints: {
       auth: '/api/auth (register, login, profile)',
       transactions: '/api/transactions (CRUD, summary, reports)',
@@ -56,4 +59,3 @@ app.listen(PORT, () => {
   console.log(` Server is running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
   console.log(` API Base URL: http://localhost:${PORT}`);
 });
-
