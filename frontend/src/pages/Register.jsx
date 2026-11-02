@@ -44,7 +44,7 @@ const Register = ({ onSwitchToLogin, onRegisterSuccess }) => {
       });
       setLoading(false);
 
-      if (res.data.success) {
+      if (res.data && res.data.success) {
         const { token, ...userData } = res.data.data;
         localStorage.setItem('token', token);
         localStorage.setItem('user', JSON.stringify(userData));
@@ -52,11 +52,13 @@ const Register = ({ onSwitchToLogin, onRegisterSuccess }) => {
       }
     } catch (err) {
       setLoading(false);
-      setError(
-        err.response && err.response.data && err.response.data.message
-          ? err.response.data.message
-          : 'Registration failed. Please try again.'
-      );
+      let errorMsg = 'Registration failed. Please try again.';
+      if (err.response && err.response.data && err.response.data.message) {
+        errorMsg = err.response.data.message;
+      } else if (err.code === 'ERR_NETWORK' || !err.response) {
+        errorMsg = 'Cannot reach backend server. If deployed on Vercel, please verify your Render backend is Live and VITE_API_URL is configured.';
+      }
+      setError(errorMsg);
     }
   };
 
@@ -145,4 +147,3 @@ const Register = ({ onSwitchToLogin, onRegisterSuccess }) => {
 };
 
 export default Register;
-
