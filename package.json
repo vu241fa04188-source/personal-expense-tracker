@@ -1,0 +1,13 @@
+{
+  "name": "personal-expense-tracker",
+  "version": "1.0.0",
+  "description": "Full-stack Personal Expense Tracker",
+  "scripts": {
+    "postinstall": "cd backend && npm install",
+    "build": "cd backend && npm install",
+    "start": "node backend/server.js"
+  },
+  "keywords": [],
+  "author": "Student",
+  "license": "ISC"
+}
